@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+             xmlns:vms="clr-namespace:UI.ViewModel"
+             x:Class="UI.View.ShowStatisticPage"
+             x:DataType="vms:ShowStatisticViewModel"
+             Title="Статистика за месяц"
+             >
+
+    <ScrollView>
+    
+        <VerticalStackLayout Spacing="10" Padding="0, 10, 0, 10">
+            <Grid ColumnSpan="10" RowSpacing="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+
+                <!--Year picker-->
+                <Button Grid.Row="0" Grid.Column="0" Command="{Binding DencrementYear}" Text="Предыдущий"/>
+                <Label Grid.Row="0" Grid.Column="1" FontSize="18" Text="{Binding SelectedYear}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <Button Grid.Row="0" Grid.Column="2" Command="{Binding IncrementYear}" Text="Следующий"/>
+
+                <!--Month picker-->
+                <Button Grid.Row="1" Grid.Column="0"  Command="{Binding DencrementMonth}" Text="Предыдущий"/>
+                <Label Grid.Row="1" Grid.Column="1" FontSize="18" Text="{Binding SelectedMonthName}" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <Button Grid.Row="1" Grid.Column="2" Command="{Binding IncrementMonth}" Text="Следующий"/>
+            </Grid>
+
+            <Line BackgroundColor="Black" />
+            <Label Text="Доходы" FontSize="18" HorizontalOptions="Center"/>
+            <lvc:PieChart LegendTextSize="40" HeightRequest="250" Series="{Binding IncomeSeries}" LegendPosition="Bottom" />
+
+            <Line BackgroundColor="Black" />
+            <Label Text="Расходы" FontSize="18" HorizontalOptions="Center"/>
+            <lvc:PieChart LegendTextSize="40" HeightRequest="250" Series="{Binding ExpenditureSeries}" LegendPosition="Bottom" />
+        </VerticalStackLayout>
+
+    </ScrollView>
+</ContentPage>

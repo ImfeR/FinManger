@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:UI.View.Converters"
+             xmlns:viewModels="clr-namespace:UI.ViewModel"
+             x:Class="UI.View.AddCategoryView"
+             x:DataType="viewModels:AddCategoryViewModel"
+             Title="Добавить категорию">
+    <ContentPage.Resources>
+        <local:EnumToStringConverter x:Key="CategoryToString" />
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout  Spacing="15">
+            <Grid Padding="10, 15" ColumnSpacing="10" RowSpacing="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+
+                <Border
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Grid.Row="0">
+                    <Entry
+                        Margin="10, 0, 10, 0"
+                        x:Name="categoryName"
+                        FontSize="16"
+                        Placeholder="Название"
+                        MaxLength="15" 
+                        Text="{Binding CategoryName}"
+                        />
+                </Border>
+
+                <Border
+                    Grid.Column="0"
+                    Grid.Row="1">
+                    <Picker 
+                        Margin="10, 0, 10, 0" 
+                        FontSize="16" 
+                        SelectedItem="{Binding SelectedCategoryType, Mode=TwoWay}" 
+                        ItemsSource="{Binding CategoryTypeList}" 
+                        SelectedIndexChanged="OnCategoryChanged" />
+
+                </Border>
+
+                <Button 
+                    x:Name="addCategory"
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Text="Добавить"
+                    VerticalOptions="Center"
+                    Command="{Binding AddCategoryCommand}"
+                    />
+            </Grid>
+
+            <Line BackgroundColor="Black"/>
+
+            <CollectionView ItemsSource="{Binding CategoryList}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type viewModels:CategoryViewModel}">
+                        <Grid ColumnSpacing="10" Padding="10, 5, 10, 5" RowSpacing="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="1"/>
+                            </Grid.RowDefinitions>
+
+                            <Label 
+                            FontSize="18" 
+                            Text="{Binding Name}" 
+                            Grid.Column="0" 
+                            Grid.Row="0"
+                            VerticalOptions="Center"/>
+                            <Label 
+                            Text="{Binding Type, Converter={StaticResource CategoryToString}}" 
+                            Grid.Column="1" 
+                            Grid.Row="0"
+                            VerticalOptions="Center"
+                            FontSize="18"/>
+                            <Button WidthRequest="90" Text="Удалить" Grid.Row="0" Grid.Column="2" Command="{Binding DeleteCategoryCommand}"/>
+
+                            <Line Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" BackgroundColor="Black"/>
+
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

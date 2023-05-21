@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:UI.ViewModel"
+             x:Class="UI.View.AddOperationView"
+             xmlns:CategoryType="clr-namespace:DAL.Models;assembly=DAL"
+             Title="Добавить операцию"
+             Disappearing="ContentPageDisappearing">
+    <ScrollView>
+        <VerticalStackLayout Spacing="15">
+            <Button 
+                Margin="10, 15, 10, 0" 
+                Text="Добавить категорию" 
+                HorizontalOptions="Fill" 
+                VerticalOptions="Start" 
+                Clicked="GoToAddCategoryButtonClicked"/>
+
+            <Line BackgroundColor="Black"/>
+
+            <Grid RowSpacing="15" ColumnSpacing="5" Padding="10, 15, 10, 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="100"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="170" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" 
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+                        <Entry 
+                            Keyboard="Numeric"
+                            x:Name="AmountEntry"
+                            Placeholder="Сумма"
+                            Margin="10, 5, 5, 10"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Center"
+                            FontSize="18"
+                            MaxLength="10"
+                            TextChanged="AmountEditorValueChanged"
+                            />
+                        <Label Text="Р" VerticalOptions="Center" HorizontalOptions="End"/>
+                    </Grid>
+                </Border>
+
+                
+                <Border Grid.Column="2" Grid.Row="0">
+                    <VerticalStackLayout>
+                        <Label Text="Тип" HorizontalOptions="Center"/>
+                        <Picker 
+                            SelectedIndexChanged="CategoryPickerSelectedIndexChanged"
+                            x:Name="CategoryPicker"
+                            Margin="10, 0, 0, 10"
+                            FontSize="16"/>
+                    </VerticalStackLayout>
+                </Border>
+                
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="0" 
+                    Grid.ColumnSpan="3">
+                    <Editor 
+                        TextChanged="CommentEditorTextChanged"
+                        x:Name="CommentEditor"
+                        Margin="10, 0, 0, 0"
+                        Placeholder="Комментарий"
+                        />
+                </Border>
+
+                <Border 
+                    Grid.Row="2"
+                    Grid.Column="0">
+                    <Picker 
+                        SelectedIndexChanged="CustomCategoryPickerSelectedIndexChanged"
+                        x:Name="CustomCategoryPicker"
+                        Margin="10, 0, 10, 0" 
+                        FontSize="16" />
+                </Border>
+
+                <Button Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="Добавить" Clicked="AddOperationButtonClicked"/>
+            </Grid>
+
+            <Line BackgroundColor="Black"/>
+            
+            <CollectionView x:Name="OpeartionCollectionView">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type viewModels:OperationViewModel}">
+                        <Grid Margin="10, 5, 10, 5" RowSpacing="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition Height="1" />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Label 
+                                FontSize="22" 
+                                Grid.Row="0" 
+                                Grid.RowSpan="2" 
+                                Grid.Column="0" 
+                                Text="{Binding Amount, StringFormat=\{0\} p}" 
+                                VerticalOptions="Center" 
+                                HorizontalOptions="Center"/>
+
+                            <Label 
+                                Grid.Row="0" 
+                                Grid.Column="1" 
+                                Text="{Binding CategoryType}" 
+                                VerticalOptions="Center" 
+                                HorizontalOptions="Center"/>
+                            <Label 
+                                Grid.Row="1" 
+                                Grid.Column="1" 
+                                Text="{Binding CustomCategoryName}"
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"/>
+
+                            <Button Grid.Row="0" Grid.Column="2" Text="Подробнее" Command="{Binding OpenAboutOperation}"/>
+                            <Button Grid.Row="1" Grid.Column="2" Text="Удалить" Command="{Binding DeleteOperation}"/>
+                            <Line BackgroundColor="Black" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
